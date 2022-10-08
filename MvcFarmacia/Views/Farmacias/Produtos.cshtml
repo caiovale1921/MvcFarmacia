@@ -1,0 +1,55 @@
+﻿@model Farmacia
+
+@{
+    ViewData["Title"] = "Produtos por Farmacia";
+}
+
+<h2>Farmácia: @Model.Nome</h2>
+<h4>Endereço: @Model.Endereco</h4>
+<h5>Total de produtos: @(Model.Produtos.Count) | Valor Total: R$ @Model.Produtos.Select(x => x.Preco).Sum()</h5>
+<hr />
+@if (Model.Produtos is null)
+{
+    <h3>Não há produtos nesta farmacia.</h3>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Produtos.FirstOrDefault().Descricao)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Produtos.FirstOrDefault().Preco)
+                </th>
+                <th>
+                    Tipo de Produto
+                </th>
+                <th>
+                    Operações
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Produtos)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Descricao)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Preco)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TipoProduto.Descricao)
+                    </td>
+                    <td>
+                        <a asp-action="DeletarProdutoFarmacia" asp-route-id="@item.Id">Remover</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
